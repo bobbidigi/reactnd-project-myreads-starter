@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import * as BooksAPI from './BooksAPI'
 import Book from './Book';
 
@@ -21,10 +20,14 @@ class SearchPage extends Component {
   updateSearchedBooks = (query) => {
     if(query){
       BooksAPI.search(query).then((searchedBooks) =>{
-      this.setState({ searchedBooks: searchedBooks})
-    })
+        if(searchedBooks.error) {
+          this.setState({ searchedBooks: [] });
+        }else{
+          this.setState({ searchedBooks: searchedBooks });
+        }
+      })
     }else{
-      this.setState({ searchedBooks: [] })
+      this.setState({ searchedBooks: [] });
     }
   }
 
