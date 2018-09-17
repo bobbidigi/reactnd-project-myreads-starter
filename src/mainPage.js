@@ -1,8 +1,28 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Book from './Book';
+import Shelf from './Shelf';
+import * as BooksAPI from './BooksAPI'
 
 class MainPage extends Component {
+
+  state = {
+    books: []
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books: books })
+    })
+  }
+
+  moveShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf);
+
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books: books })
+    })
+  }
+
   render(){
     console.log(this.props.books);
       return(
@@ -11,68 +31,10 @@ class MainPage extends Component {
               <h1>MyReads</h1>
           </div>
           <div className="list-books-content">
-              <div>
-                    <div className="bookshelf">
-                        <h2 className="bookshelf-title">Currently Reading</h2>
-                        <div className="bookshelf-books">
-                          <ol className="books-grid">
-                            {
-                              this.props.books
-                                .filter(book => book.shelf === 'currentlyReading')
-                                .map(book => (
-                                  <li key={book.id}>
-                                    <Book
-                                      book={book}
-                                      moveShelf={this.props.moveShelf}
-                                      currentShelf="currentlyReading" 
-                                    />
-                                  </li>
-                                ))
-                            }
-                          </ol>
-                        </div>
-                    </div>
-                    <div className="bookshelf">
-                        <h2 className="bookshelf-title">Want to Read</h2>
-                        <div className="bookshelf-books">
-                              <ol className="books-grid">
-                              {
-                                this.props.books
-                                .filter(book => book.shelf === 'wantToRead')
-                                .map(book => (
-                                  <li key={book.id}>
-                                    <Book
-                                      book={book}
-                                      moveShelf={this.props.moveShelf}
-                                      currentShelf="wantToRead"
-                                    />
-                                  </li>
-                                ))
-                              }
-                              </ol>
-                        </div>
-                    </div>
-                    <div className="bookshelf">
-                        <h2 className="bookshelf-title">Read</h2>
-                        <div className="bookshelf-books">
-                          <ol className="books-grid">
-                            {
-                              this.props.books
-                                .filter(book => book.shelf === 'read')
-                                .map(book => (
-                                  <li key={book.id}>
-                                    <Book
-                                      book={book}
-                                      moveShelf={this.props.moveShelf}
-                                      currentShelf="read"
-                                    />
-                                  </li>
-                                ))
-                            }
-                          </ol>
-                        </div>
-                    </div>
-              </div>
+            <Shelf 
+                books={this.state.books}
+                moveShelf={this.moveShelf}
+            />
           </div>
           <div className="open-search">
               <Link

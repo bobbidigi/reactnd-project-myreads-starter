@@ -17,7 +17,6 @@ class SearchPage extends Component {
     this.updateSearchedBooks(query);
   }
 
-
   updateSearchedBooks = (query) => {
     if(query){
       BooksAPI.search(query).then((searchedBooks) =>{
