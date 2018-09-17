@@ -1,5 +1,5 @@
 {
-  "homepage": "https: //bobbidigi.github.io/reactnd-project-myreads-starter",
+  "homepage": "https://bobbidigi.github.io/reactnd-project-myreads-starter",
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
     "gh-pages": "^2.0.0",
